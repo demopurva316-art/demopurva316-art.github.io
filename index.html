@@ -13,62 +13,103 @@
     <div class="hero-inner">
       <div class="hero-badge">🎨 Craft Heritage India</div>
       <h1>Discover Indian Artisans</h1>
-      <p>Explore master craftspeople and the raw materials behind India's living craft traditions.</p>
+      <p>Filter by region, craft, experience — or pick raw materials to find artisans who work with them.</p>
     </div>
   </header>
 
-  <!-- Filters -->
+  <!-- ── Filter Panel ── -->
   <section class="filters-section">
     <div class="container">
-      <h2 class="section-title">Find by Preference</h2>
-      <p class="section-sub">Select one or more filters — results update instantly.</p>
 
-      <div class="filter-grid">
-
-        <div class="filter-card">
-          <label class="filter-label">📍 Region / Location</label>
-          <select id="filter-region" class="filter-select">
-            <option value="">All Regions</option>
-          </select>
-        </div>
-
-        <div class="filter-card">
-          <label class="filter-label">🪡 Craft Type</label>
-          <select id="filter-craft" class="filter-select">
-            <option value="">All Crafts</option>
-          </select>
-        </div>
-
-        <div class="filter-card">
-          <label class="filter-label">⭐ Experience Level</label>
-          <select id="filter-exp" class="filter-select">
-            <option value="">Any Experience</option>
-            <option value="beginner">Beginner (1–10 yrs)</option>
-            <option value="intermediate">Intermediate (11–25 yrs)</option>
-            <option value="expert">Expert (26–45 yrs)</option>
-          </select>
-        </div>
-
-        <div class="filter-card">
-          <label class="filter-label">🔍 Search by Name</label>
-          <input type="text" id="filter-name" class="filter-input" placeholder="e.g. Sunita, Amit…" />
-        </div>
-
+      <!-- Tab switcher -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-tab="basic">🔎 Basic Filters</button>
+        <button class="filter-tab" data-tab="materials">🌿 Raw Material Preferences</button>
       </div>
 
-      <div class="filter-actions">
-        <button id="btn-reset" class="btn-reset">✕ Reset Filters</button>
-        <span id="result-count" class="result-count"></span>
+      <!-- Basic Filters -->
+      <div id="tab-basic" class="tab-panel active">
+        <div class="filter-grid">
+
+          <div class="filter-card">
+            <label class="filter-label">📍 Region / Location</label>
+            <select id="filter-region" class="filter-select">
+              <option value="">All Regions</option>
+            </select>
+          </div>
+
+          <div class="filter-card">
+            <label class="filter-label">🪡 Craft Type</label>
+            <select id="filter-craft" class="filter-select">
+              <option value="">All Crafts</option>
+            </select>
+          </div>
+
+          <div class="filter-card">
+            <label class="filter-label">⭐ Experience Level</label>
+            <select id="filter-exp" class="filter-select">
+              <option value="">Any Experience</option>
+              <option value="beginner">🌱 Beginner (1–10 yrs)</option>
+              <option value="intermediate">📘 Intermediate (11–25 yrs)</option>
+              <option value="expert">🏆 Expert (26–45 yrs)</option>
+            </select>
+          </div>
+
+          <div class="filter-card">
+            <label class="filter-label">🔍 Search by Name</label>
+            <input type="text" id="filter-name" class="filter-input" placeholder="e.g. Sunita, Amit…" />
+          </div>
+
+        </div>
       </div>
+
+      <!-- Material Preferences -->
+      <div id="tab-materials" class="tab-panel">
+        <p class="mat-pref-hint">
+          Select raw materials you're interested in. Artisans whose craft uses those materials will be highlighted and ranked higher.
+        </p>
+
+        <!-- Search within materials -->
+        <div class="mat-search-wrap">
+          <input type="text" id="mat-search" class="filter-input mat-search" placeholder="🔍 Search materials…" />
+        </div>
+
+        <!-- Group chips by craft -->
+        <div id="material-groups" class="material-groups"></div>
+      </div>
+
+      <!-- Active filter pills + actions -->
+      <div class="filter-footer">
+        <div id="active-pills" class="active-pills"></div>
+        <div class="filter-actions">
+          <button id="btn-reset" class="btn-reset">✕ Reset All</button>
+          <span id="result-count" class="result-count"></span>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Main Content -->
+  <!-- ── Main Content ── -->
   <main class="container main-content">
+
+    <!-- Sort bar -->
+    <div class="sort-bar">
+      <span class="sort-label">Sort artisans by:</span>
+      <div class="sort-btns">
+        <button class="sort-btn active" data-sort="match">⭐ Best Match</button>
+        <button class="sort-btn" data-sort="exp-desc">Experience ↓</button>
+        <button class="sort-btn" data-sort="exp-asc">Experience ↑</button>
+        <button class="sort-btn" data-sort="name">Name A–Z</button>
+      </div>
+    </div>
 
     <!-- Artisans -->
     <section id="artisan-section">
-      <h2 class="section-title">🧑‍🎨 Artisans</h2>
+      <div class="section-header">
+        <h2 class="section-title">🧑‍🎨 Artisans</h2>
+        <span id="artisan-count-badge" class="count-badge"></span>
+      </div>
       <div id="artisan-grid" class="card-grid"></div>
       <p id="no-artisans" class="no-results hidden">No artisans match your selection.</p>
     </section>
@@ -78,8 +119,11 @@
 
     <!-- Raw Materials -->
     <section id="materials-section">
-      <h2 class="section-title">🌿 Raw Materials</h2>
-      <p class="section-sub" id="materials-sub">Showing materials for the selected craft / region.</p>
+      <div class="section-header">
+        <h2 class="section-title">🌿 Raw Materials</h2>
+        <span id="material-count-badge" class="count-badge green"></span>
+      </div>
+      <p class="section-sub" id="materials-sub">Materials linked to your current craft / region / preference selection.</p>
       <div id="materials-grid" class="materials-grid"></div>
       <p id="no-materials" class="no-results hidden">No materials match your selection.</p>
     </section>
